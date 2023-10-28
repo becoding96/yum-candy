@@ -55,6 +55,7 @@ function Child({
       setKeyPressed((prev) => ({ ...prev, [e.key]: 1 }));
     };
 
+    // 이 때 setIsMoving을 false로 바꾸면 안됨
     const handleKeyUp = (e: KeyboardEvent) => {
       if (
         e.key === "ArrowUp" ||
@@ -114,6 +115,13 @@ function Child({
           run.stop();
           stand.play();
         }
+      }
+
+      if (
+        Math.abs(position.x + xMove) > 2.5 ||
+        Math.abs(position.z + zMove) > 2.5
+      ) {
+        return;
       }
 
       setPosition((prev) => ({ x: prev.x + xMove, z: prev.z + zMove }));
