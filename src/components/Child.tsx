@@ -62,7 +62,6 @@ function Child({
         e.key === "ArrowDown" ||
         e.key === "ArrowLeft"
       ) {
-        setIsMoving(false);
         setKeyPressed((prev) => ({ ...prev, [e.key]: 0 }));
       }
     };
@@ -86,7 +85,8 @@ function Child({
 
     if (isMoving) {
       // 움직일 때
-      if (run) {
+      if (stand && run) {
+        stand.stop();
         run.play();
       }
 
@@ -109,16 +109,20 @@ function Child({
 
       if (xMove === 0 && zMove === 0) {
         setIsMoving(false);
+
+        if (run && stand) {
+          run.stop();
+          stand.play();
+        }
       }
 
       setPosition((prev) => ({ x: prev.x + xMove, z: prev.z + zMove }));
 
-      setChildPos({ x: position.x, z: position.z });
+      setChildPos({ x: position.x, z: position.z }); // 부모 컴포넌트 전달
       ref.current.position.set(position.x, 0, position.z);
     } else {
       // 움직이지 않을 때
-      if (run && stand) {
-        run.stop();
+      if (stand) {
         stand.play();
       }
     }
