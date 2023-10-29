@@ -4,8 +4,16 @@
   height: 100vh;
   background-color: rgb(0, 0, 0);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  p {
+    font-size: 25px;
+    margin-bottom: 1rem;
+    color: white;
+    font-weight: bold;
+  }
 }
 
 .canvas-div {
@@ -13,4 +21,10 @@
   height: 800px;
   border-radius: 10px;
   background-color: rgb(134, 134, 134);
+}
+
+.score-div {
+  position: absolute;
+  right: 11vw;
+  text-align: center;
 }
