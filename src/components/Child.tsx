@@ -3,8 +3,10 @@ import { useLoader } from "@react-three/fiber";
 import { useAnimations } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useFrame } from "@react-three/fiber";
+import { childPosType } from "../App";
 
 interface ChildPropsType {
+  childPos: childPosType;
   setChildPos: React.Dispatch<
     React.SetStateAction<{
       x: number;
@@ -15,7 +17,7 @@ interface ChildPropsType {
   setReady: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Child({ setChildPos, ready, setReady }: ChildPropsType) {
+function Child({ childPos, setChildPos, ready, setReady }: ChildPropsType) {
   const gltf = useLoader(GLTFLoader, "/child.gltf");
   const { ref, actions, names } = useAnimations(gltf.animations);
   const dirKeys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
@@ -26,14 +28,13 @@ function Child({ setChildPos, ready, setReady }: ChildPropsType) {
     ArrowLeft: 0,
   });
   const [isMoving, setIsMoving] = useState(false);
-  const moveSpeed = 0.07;
+  const moveSpeed = 0.06;
   const keySpeedWeight = {
     ArrowUp: { x: 0, z: -1 * moveSpeed },
     ArrowRight: { x: 1 * moveSpeed, z: 0 },
     ArrowDown: { x: 0, z: 1 * moveSpeed },
     ArrowLeft: { x: -1 * moveSpeed, z: 0 },
   };
-  const [position, setPosition] = useState({ x: 0, z: 0 });
 
   useEffect(() => {
     if (ref && actions && names.length > 0) {
@@ -82,6 +83,8 @@ function Child({ setChildPos, ready, setReady }: ChildPropsType) {
       return;
     }
 
+    ref.current.position.set(childPos.x, 0, childPos.z);
+
     const stand = actions[names[1]];
     const run = actions[names[2]];
 
@@ -119,16 +122,13 @@ function Child({ setChildPos, ready, setReady }: ChildPropsType) {
       }
 
       if (
-        Math.abs(position.x + xMove) > 2.5 ||
-        Math.abs(position.z + zMove) > 2.5
+        Math.abs(childPos.x + xMove) > 2.65 ||
+        Math.abs(childPos.z + zMove) > 2.65
       ) {
         return;
       }
 
-      setPosition((prev) => ({ x: prev.x + xMove, z: prev.z + zMove }));
-
-      setChildPos({ x: position.x, z: position.z }); // 부모 컴포넌트 전달
-      ref.current.position.set(position.x, 0, position.z);
+      setChildPos((prev) => ({ x: prev.x + xMove, z: prev.z + zMove }));
     } else {
       // 움직이지 않을 때
       if (stand) {
