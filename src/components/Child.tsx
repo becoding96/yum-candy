@@ -4,18 +4,19 @@ import { useAnimations } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useFrame } from "@react-three/fiber";
 
-function Child({
-  setChildPos,
-}: {
+interface ChildPropsType {
   setChildPos: React.Dispatch<
     React.SetStateAction<{
       x: number;
       z: number;
     }>
   >;
-}) {
+  ready: boolean;
+  setReady: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function Child({ setChildPos, ready, setReady }: ChildPropsType) {
   const gltf = useLoader(GLTFLoader, "/child.gltf");
-  const [isReady, setIsReady] = useState(false); // 애니메이션 준비되면 렌더링
   const { ref, actions, names } = useAnimations(gltf.animations);
   const dirKeys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
   const [keyPressed, setKeyPressed] = useState({
@@ -35,10 +36,10 @@ function Child({
   const [position, setPosition] = useState({ x: 0, z: 0 });
 
   useEffect(() => {
-    if (actions && names.length > 0) {
-      setIsReady(true);
+    if (ref && actions && names.length > 0) {
+      setReady(true);
     }
-  }, [actions, names]);
+  }, [ref, actions, names]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -154,7 +155,7 @@ function Child({
     }
   });
 
-  return isReady ? (
+  return ready ? (
     <primitive object={gltf.scene} scale={0.005} ref={ref} />
   ) : null;
 }

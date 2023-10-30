@@ -19,23 +19,26 @@ function Rig() {
 }
 
 function App() {
+  const [ready, setReady] = useState<boolean>(false);
   const [childPos, setChildPos] = useState<childPosType>({ x: 0, z: 0 });
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
-    const scoreInterval = setInterval(() => {
-      setScore((prevScore) => prevScore + 1);
-    }, 10);
+    if (ready) {
+      const scoreInterval = setInterval(() => {
+        setScore((prevScore) => prevScore + 1);
+      }, 10);
 
-    if (gameOver) {
-      clearInterval(scoreInterval);
+      if (gameOver) {
+        clearInterval(scoreInterval);
+      }
+
+      return () => {
+        clearInterval(scoreInterval);
+      };
     }
-
-    return () => {
-      clearInterval(scoreInterval);
-    };
-  }, [gameOver]);
+  }, [ready, gameOver]);
 
   if (gameOver) {
     return (
@@ -60,7 +63,7 @@ function App() {
             decay={2}
           />
           <Rig />
-          <Child setChildPos={setChildPos} />
+          <Child ready={ready} setReady={setReady} setChildPos={setChildPos} />
           <Bullets
             childPos={childPos}
             setGameOver={setGameOver}
