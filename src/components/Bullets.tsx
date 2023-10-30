@@ -74,6 +74,22 @@ function Bullets({
       setBullets((prev) => [...prev, newBullet]);
     }, 100);
 
+    setTimeout(() => {
+      setInterval(() => {
+        const newBullet = createBullet();
+
+        setBullets((prev) => [...prev, newBullet]);
+      }, 200);
+    }, 30000);
+
+    setTimeout(() => {
+      setInterval(() => {
+        const newBullet = createBullet();
+
+        setBullets((prev) => [...prev, newBullet]);
+      }, 200);
+    }, 60000);
+
     return () => {
       clearInterval(bulletCreateInterval);
     };
