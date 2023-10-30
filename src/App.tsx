@@ -19,6 +19,7 @@ function Rig() {
 }
 
 function App() {
+  const [start, setStart] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
   const [childPos, setChildPos] = useState<childPosType>({ x: 0, z: 0 });
   const [gameOver, setGameOver] = useState<boolean>(false);
@@ -40,41 +41,71 @@ function App() {
     }
   }, [ready, gameOver]);
 
+  const handleClickRestart = () => {
+    setChildPos({ x: 0, z: 0 });
+    setScore(0);
+    setReady(false);
+    setGameOver(false);
+  };
+
   if (gameOver) {
     return (
       <div className={styles.container}>
         <p>Your Score</p>
         <p>{(score / 100).toFixed(2)}</p>
+        <button onClick={handleClickRestart}>Restart</button>
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles["canvas-div"]}>
-        <Canvas>
-          <OrbitControls />
-          <Environment preset={"sunset"} background={false} />
-          <ambientLight intensity={1} />
-          <pointLight
-            position={[0, 5, 0]}
-            intensity={20}
-            distance={20}
-            decay={2}
-          />
-          <Rig />
-          <Child ready={ready} setReady={setReady} setChildPos={setChildPos} />
-          <Bullets
-            childPos={childPos}
-            setGameOver={setGameOver}
-            setScore={setScore}
-          />
-        </Canvas>
-      </div>
-      <div className={styles["score-div"]}>
-        <p style={{ fontWeight: "bold" }}>Your Score</p>
-        <p>{(score / 100).toFixed(2)}</p>
-      </div>
+      {!start && (
+        <div className={styles["start-div"]}>
+          <p>
+            1. <span style={{ color: "red" }}>빨간 공</span>에 닿으면 게임이
+            종료됩니다.
+          </p>
+          <p>
+            2. <span style={{ color: "green" }}>초록 공</span>에 닿으면 점수가
+            10 증가합니다.
+          </p>
+          <button onClick={() => setStart(true)}>Start!</button>
+        </div>
+      )}
+      {start && (
+        <>
+          <div className={styles["canvas-div"]}>
+            <Canvas>
+              <OrbitControls />
+              <Environment preset={"sunset"} background={false} />
+              <ambientLight intensity={1} />
+              <pointLight
+                position={[0, 5, 0]}
+                intensity={20}
+                distance={20}
+                decay={2}
+              />
+              <Rig />
+              <Child
+                ready={ready}
+                setReady={setReady}
+                childPos={childPos}
+                setChildPos={setChildPos}
+              />
+              <Bullets
+                childPos={childPos}
+                setGameOver={setGameOver}
+                setScore={setScore}
+              />
+            </Canvas>
+          </div>
+          <div className={styles["score-div"]}>
+            <p style={{ fontWeight: "bold" }}>Your Score</p>
+            <p>{(score / 100).toFixed(2)}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }
