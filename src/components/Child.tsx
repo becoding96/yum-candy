@@ -18,7 +18,7 @@ interface ChildPropsType {
 }
 
 function Child({ childPos, setChildPos, ready, setReady }: ChildPropsType) {
-  const gltf = useLoader(GLTFLoader, "/child.gltf");
+  const gltf = useLoader(GLTFLoader, "child.gltf");
   const { ref, actions, names } = useAnimations(gltf.animations);
   const dirKeys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
   const [keyPressed, setKeyPressed] = useState({
