@@ -51,9 +51,11 @@ function App() {
   if (gameOver) {
     return (
       <div className={styles.container}>
-        <p>Your Score</p>
-        <p>{(score / 100).toFixed(2)}</p>
-        <button onClick={handleClickRestart}>Restart</button>
+        <div className={styles["result-div"]}>
+          <p>Your Score</p>
+          <p>{(score / 100).toFixed(2)}</p>
+          <button onClick={handleClickRestart}>Restart</button>
+        </div>
       </div>
     );
   }
@@ -63,12 +65,12 @@ function App() {
       {!start && (
         <div className={styles["start-div"]}>
           <p>
-            1. <span style={{ color: "red" }}>빨간 공</span>에 닿으면 게임이
-            종료됩니다.
+            1. <span style={{ color: "red" }}>불닭 사탕</span>을 먹으면 매워
+            죽습니다.
           </p>
           <p>
-            2. <span style={{ color: "green" }}>초록 공</span>에 닿으면 점수가
-            10 증가합니다.
+            2. <span style={{ color: "green" }}>청포도 사탕</span>을 먹으면
+            점수가 10 증가합니다.
           </p>
           <button onClick={() => setStart(true)}>Start!</button>
         </div>
@@ -101,7 +103,7 @@ function App() {
             </Canvas>
           </div>
           <div className={styles["score-div"]}>
-            <p style={{ fontWeight: "bold" }}>Your Score</p>
+            <p>Your Score</p>
             <p>{(score / 100).toFixed(2)}</p>
           </div>
         </>
