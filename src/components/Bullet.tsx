@@ -25,8 +25,6 @@ function Bullet({ bullet, childPos, setGameOver, setScore }: BulletPropsType) {
     bullet.direction.z
   );
   const position = useRef(startPositionVector); // 현재 위치 기억
-  const eatSound = new Audio("eatSound.mp3");
-  eatSound.volume = 0.1;
 
   useFrame(() => {
     if (!bulletRef || !bulletRef.current) {
@@ -58,9 +56,6 @@ function Bullet({ bullet, childPos, setGameOver, setScore }: BulletPropsType) {
       } else if (bullet.color === "green") {
         setScore((prevScore) => prevScore + 1000);
         setDeleted(true);
-
-        eatSound.play();
-        eatSound.remove();
       }
     }
   });
