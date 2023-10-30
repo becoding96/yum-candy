@@ -67,7 +67,11 @@ function Bullet({ bullet, childPos, setGameOver, setScore }: BulletPropsType) {
   return (
     <mesh ref={bulletRef} position={startPositionVector}>
       <sphereGeometry args={[bullet.size, 32, 32]} />
-      <meshPhongMaterial color={bullet.color} />
+      <meshStandardMaterial
+        color={bullet.color}
+        roughness={0.3}
+        metalness={0.1}
+      />
     </mesh>
   );
 }

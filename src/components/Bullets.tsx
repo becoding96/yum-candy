@@ -42,7 +42,7 @@ function createBullet() {
     z: Math.random() * 0.1 - 0.05,
   };
 
-  const newBulletSize = 0.08 + Math.random() * 0.04;
+  const newBulletSize = 0.1 + Math.random() * 0.03;
 
   const color = Math.random() < 0.2 ? "green" : "red";
 
