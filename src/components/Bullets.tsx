@@ -9,25 +9,17 @@ export interface BulletType {
   color: string;
 }
 
-const start = 0,
-  end = 2.9;
-const step = 0.1;
-
-const point: number[] = [];
-
-for (let i = start; i <= end; i += step) {
-  point.push(i);
-}
+const halfCanvasLength = 2.9;
 
 function createBullet() {
   let x, z;
 
   if (Math.random() < 0.5) {
-    x = Math.random() < 0.5 ? 2.9 : -2.9;
-    z = point[Math.floor(Math.random() * point.length)];
+    x = Math.random() < 0.5 ? halfCanvasLength : -halfCanvasLength;
+    z = Math.random() * halfCanvasLength * 2 - halfCanvasLength;
   } else {
-    z = Math.random() < 0.5 ? 2.9 : -2.9;
-    x = point[Math.floor(Math.random() * point.length)];
+    z = Math.random() < 0.5 ? halfCanvasLength : -halfCanvasLength;
+    x = Math.random() * halfCanvasLength * 2 - halfCanvasLength;
   }
 
   const newStartPosition = {
@@ -85,10 +77,8 @@ function Bullets({
         <Bullet
           key={
             bullet.startPosition.x +
-            bullet.startPosition.y +
             bullet.startPosition.z +
             bullet.direction.x +
-            bullet.direction.y +
             bullet.direction.z
           }
           bullet={bullet}

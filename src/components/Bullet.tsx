@@ -16,12 +16,12 @@ function Bullet({ bullet, childPos, setGameOver, setScore }: BulletPropsType) {
   const bulletRef = useRef<Mesh>(null);
   const startPositionVector = new Vector3(
     bullet.startPosition.x,
-    bullet.startPosition.y,
+    0,
     bullet.startPosition.z
   );
   const directionVector = new Vector3(
     bullet.direction.x,
-    bullet.direction.y,
+    0,
     bullet.direction.z
   );
   const position = useRef(startPositionVector); // 현재 위치 기억
