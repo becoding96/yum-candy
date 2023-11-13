@@ -72,6 +72,7 @@ function App() {
             2. <span style={{ color: "green" }}>청포도 사탕</span>을 먹으면
             점수가 10 증가합니다.
           </p>
+          <p>3. 생존 점수로 초당 1점씩 점수가 증가합니다.</p>
           <button onClick={() => setStart(true)}>Start!</button>
         </div>
       )}
